@@ -4,6 +4,8 @@ An assorted collection of fun tools!
 from random import randint
 from flask import Flask, request
 
+import models
+
 app = Flask(__name__)
 
 
@@ -40,8 +42,15 @@ def new_user():
 
     data = request.get_json()
 
-    return(data)
-    # print(data)
+    email = data.get("email")
+    birthday = data.get("birthday")
+
+    if not email:
+        return "Email é necessário!", 400
+
+    user = models.User.create(email=email, birthday=birthday)
+
+    return "Usuário criado!"
 
     # if data:
     #     return data["name"]
